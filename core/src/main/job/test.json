@@ -1,0 +1,75 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                 "channel": 3
+            },
+            "errorLimit": {
+                "record": 0,
+                "percentage": 0.02
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "mysqlreader",
+                    "parameter": {
+                        "username": "root",
+                        "password": "root",
+                        "column": [
+                            "id",
+                            "name",
+							"type"
+                        ],
+                        "splitPk": "id",
+                        "connection": [
+                            {
+                                "table": [
+                                    "t1"
+                                ],
+                                "jdbcUrl": [
+     "jdbc:mysql://127.0.0.1:3306/test"
+                                ]
+                            }
+                        ]
+                    }
+                },
+               "writer": {
+                    "name": "streamwriter",
+                    "parameter": {
+                        "print":true
+                    }
+                },
+              "transformer": [
+                {
+                  "name": "dx_substr",
+                  "parameter":
+                  {
+                    "columnIndex":2,
+                    "paras":["1","3"]
+                  }
+                },
+                {
+                  "name": "dx_replace",
+                  "parameter":
+                  {
+                    "columnIndex":1,
+                    "paras":["3","4","****"]
+                  }
+                },
+                {
+                  "name": "dx_groovy",
+                  "parameter":
+                  {
+                    "code": "//groovy code//",
+                    "extraPackage":[
+                      "import somePackage1;",
+                      "import somePackage2;"
+                    ]
+                  }
+                }
+              ]
+            }
+        ]
+    }
+}
